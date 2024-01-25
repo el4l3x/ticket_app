@@ -27,10 +27,11 @@ class DefaultFirebaseOptions {
       case TargetPlatform.macOS:
         return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
+        return windows;
+      /* throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
           'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        ); */
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -77,5 +78,12 @@ class DefaultFirebaseOptions {
     projectId: 'tickets-app-ea141',
     storageBucket: 'tickets-app-ea141.appspot.com',
     iosBundleId: 'com.example.ticketApp.RunnerTests',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyDvnWcNx3K-Gu7HIZRP47aSjA2lcwEnZfI',
+    appId: '1:395977125298:android:be47d347f0dd23c83708ab',
+    messagingSenderId: '395977125298',
+    projectId: 'tickets-app-ea141',
   );
 }
