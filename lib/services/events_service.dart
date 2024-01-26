@@ -3,14 +3,21 @@ import 'package:ticket_app/models/event.dart';
 
 FirebaseFirestore db = FirebaseFirestore.instance;
 CollectionReference eventReference = db.collection('events');
+CollectionReference userReference = db.collection('usuarios');
 
 Map<String, dynamic> result = {"error": true, "errorMessage": ""};
 
-Future<Map<String, dynamic>> storeEvent(String name, String tickets) async {
+Future<Map<String, dynamic>> storeEvent(
+    String name, String tickets, List sellers) async {
   try {
+    Map<String, String> mapSellers = {
+      for (var item in sellers) sellers.indexOf(item).toString(): item!
+    };
+
     await eventReference.add({
       "name": name,
       "tickets": tickets,
+      "sellers": mapSellers,
     });
 
     result['error'] = false;
@@ -33,13 +40,18 @@ Future<List<EventModel>> getEvents() async {
 }
 
 Future<Map<String, dynamic>> updateEvent(
-    String name, String tickets, String uid) async {
+    String name, String tickets, String uid, List sellers) async {
   try {
+    Map<String, String> mapSellers = {
+      for (var item in sellers) sellers.indexOf(item).toString(): item!
+    };
+
     await eventReference
         .doc(uid)
         .set({
           'name': name,
           'tickets': tickets,
+          "sellers": mapSellers,
         })
         .then((value) => result['error'] = false)
         .onError((error, stackTrace) {

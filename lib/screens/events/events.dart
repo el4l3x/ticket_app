@@ -46,6 +46,10 @@ class _EventsScreenState extends State<EventsScreen> {
               itemCount: eventsProvider.events.length,
               itemBuilder: (context, index) {
                 EventModel event = eventsProvider.events[index];
+                Map sellers = event.sellers != null ? event.sellers! : {};
+                String sellersCount = event.sellers != null
+                    ? event.sellers!.length.toString()
+                    : '0';
                 return Dismissible(
                   key: Key(event.uid!),
                   confirmDismiss: (direction) async {
@@ -83,8 +87,8 @@ class _EventsScreenState extends State<EventsScreen> {
                       ],
                     ),
                   ),
-                  child: generalsLayouts.listItems(
-                      context, event.name!, event.uid!, event.tickets!, [
+                  child: generalsLayouts.listItems(context, event.name!,
+                      'Vendedores: $sellersCount', event.tickets!, [
                     IconButton(
                       onPressed: () {
                         Navigator.pushNamed(
@@ -93,6 +97,7 @@ class _EventsScreenState extends State<EventsScreen> {
                           arguments: {
                             'event': event,
                             'edit': true,
+                            'sellers': sellers,
                           },
                         ).then((value) => eventsProvider.loadEvents());
                       },
@@ -109,6 +114,7 @@ class _EventsScreenState extends State<EventsScreen> {
         onPressed: () async {
           await Navigator.pushNamed(context, '/eventos/crear', arguments: {
             'edit': false,
+            'sellers': {},
           }).then((value) => eventsProvider.loadEvents());
         },
         shape: const StadiumBorder(),
