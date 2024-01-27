@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:ticket_app/models/event.dart';
+import 'package:ticket_app/models/user.dart';
 import 'package:ticket_app/providers/events.dart';
 import 'package:ticket_app/providers/users.dart';
 import 'package:ticket_app/screens/layouts/appbar.dart';
@@ -47,16 +48,12 @@ class _FormEventScreenState extends State<FormEventScreen> {
     final bool onEdit = arguments['edit'];
     final EventModel event =
         onEdit ? arguments['event'] : EventModel(uid: '', name: '');
-    final Map initSellersMap = onEdit ? arguments['sellers'] : {};
+    final List<UserModel> sellersSelected = onEdit ? arguments['sellers'] : [];
 
     if (!_loadData && onEdit) {
       textName.text = event.name!;
       textTickets.text = event.tickets!;
-
-      initSellersMap.forEach((key, value) {
-        sellersInit.add(value);
-      });
-
+      sellersInit = sellersSelected.map((e) => e.uid!).toList();
       _loadData = true;
     }
 

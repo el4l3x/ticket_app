@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ticket_app/models/event.dart';
+import 'package:ticket_app/models/user.dart';
 
 FirebaseFirestore db = FirebaseFirestore.instance;
 CollectionReference eventReference = db.collection('events');
@@ -10,8 +11,9 @@ Map<String, dynamic> result = {"error": true, "errorMessage": ""};
 Future<Map<String, dynamic>> storeEvent(
     String name, String tickets, List sellers) async {
   try {
-    Map<String, String> mapSellers = {
-      for (var item in sellers) sellers.indexOf(item).toString(): item!
+    Map<String, DocumentReference> mapSellers = {
+      for (var item in sellers)
+        sellers.indexOf(item).toString(): db.doc('/usuarios/$item/')
     };
 
     await eventReference.add({
@@ -33,8 +35,19 @@ Future<List<EventModel>> getEvents() async {
 
   List<QueryDocumentSnapshot> documents = queryEvents.docs;
 
-  List<EventModel> events =
-      documents.map((e) => EventModel.fromSnapshot(e)).toList();
+  List<EventModel> events = await Future.wait(documents.map((e) async {
+    Map<String, dynamic> data = e.data() as Map<String, dynamic>;
+    Map<String, dynamic> sellersMap = data['sellers'];
+
+    List<UserModel> sellers =
+        await Future.wait(sellersMap.entries.map((e) async {
+      DocumentSnapshot seller = await e.value.get();
+
+      return UserModel.fromReference(seller);
+    }).toList());
+
+    return EventModel.fromSnapshot(e, sellers);
+  }).toList());
 
   return events;
 }
@@ -42,8 +55,9 @@ Future<List<EventModel>> getEvents() async {
 Future<Map<String, dynamic>> updateEvent(
     String name, String tickets, String uid, List sellers) async {
   try {
-    Map<String, String> mapSellers = {
-      for (var item in sellers) sellers.indexOf(item).toString(): item!
+    Map<String, DocumentReference> mapSellers = {
+      for (var item in sellers)
+        sellers.indexOf(item).toString(): db.doc('/usuarios/$item/')
     };
 
     await eventReference

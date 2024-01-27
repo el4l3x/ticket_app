@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ticket_app/models/event.dart';
+import 'package:ticket_app/models/user.dart';
 import 'package:ticket_app/providers/events.dart';
 import 'package:ticket_app/screens/layouts/appbar.dart';
 import 'package:ticket_app/screens/layouts/generals.dart';
@@ -46,10 +47,8 @@ class _EventsScreenState extends State<EventsScreen> {
               itemCount: eventsProvider.events.length,
               itemBuilder: (context, index) {
                 EventModel event = eventsProvider.events[index];
-                Map sellers = event.sellers != null ? event.sellers! : {};
-                String sellersCount = event.sellers != null
-                    ? event.sellers!.length.toString()
-                    : '0';
+                List<UserModel> sellers = event.sellers ?? [];
+
                 return Dismissible(
                   key: Key(event.uid!),
                   confirmDismiss: (direction) async {
@@ -87,8 +86,11 @@ class _EventsScreenState extends State<EventsScreen> {
                       ],
                     ),
                   ),
-                  child: generalsLayouts.listItems(context, event.name!,
-                      'Vendedores: $sellersCount', event.tickets!, [
+                  child: generalsLayouts.listItems(
+                      context,
+                      event.name!,
+                      'Vendedores: ${sellers.length}',
+                      'Entradas: ${event.tickets!}', [
                     IconButton(
                       onPressed: () {
                         Navigator.pushNamed(
@@ -103,6 +105,18 @@ class _EventsScreenState extends State<EventsScreen> {
                       },
                       icon: const Icon(
                         Icons.edit,
+                        color: Colors.blue,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/eventos/ver',
+                            arguments: {
+                              'event': event,
+                            });
+                      },
+                      icon: const Icon(
+                        Icons.remove_red_eye,
                         color: Colors.blue,
                       ),
                     ),
