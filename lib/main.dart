@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:ticket_app/models/user_firebase.dart';
 import 'package:ticket_app/screens/events/form_event.dart';
 import 'package:ticket_app/screens/events/events.dart';
+import 'package:ticket_app/screens/events/show.dart';
 import 'package:ticket_app/screens/home.dart';
 import 'package:ticket_app/screens/login.dart';
 
@@ -62,6 +63,7 @@ class App extends StatelessWidget {
         '/eventos': (context) => const EventsScreen(),
         '/eventos/crear': (context) => const FormEventScreen(),
         '/eventos/editar': (context) => const FormEventScreen(),
+        '/eventos/ver': (context) => const ShowEventScreen(),
         '/vendedores': (context) => const SellersScreen(),
         '/vendedores/crear': (context) => const CreateSellerScreen(),
         '/vendedores/editar': (context) => const EditSellerScreen(),
