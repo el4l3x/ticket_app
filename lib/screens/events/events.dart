@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ticket_app/models/event.dart';
 import 'package:ticket_app/models/user.dart';
+import 'package:ticket_app/models/user_firebase.dart';
 import 'package:ticket_app/providers/events.dart';
 import 'package:ticket_app/screens/layouts/appbar.dart';
 import 'package:ticket_app/screens/layouts/generals.dart';
@@ -36,6 +38,8 @@ class _EventsScreenState extends State<EventsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    UserAuth userAuth = Provider.of<UserAuth>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Eventos'),
@@ -134,7 +138,8 @@ class _EventsScreenState extends State<EventsScreen> {
         shape: const StadiumBorder(),
         child: const Icon(Icons.add),
       ),
-      bottomNavigationBar: generalsLayouts.footer(context, 2),
+      bottomNavigationBar:
+          generalsLayouts.footer(context, 2, userAuth.isAdmin!),
     );
   }
 }

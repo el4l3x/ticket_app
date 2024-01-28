@@ -49,18 +49,21 @@ class GeneralsLayouts {
     );
   }
 
-  BottomNavigationBar footer(BuildContext context, int currentIndex) {
+  BottomNavigationBar footer(
+      BuildContext context, int currentIndex, bool isAdmin) {
     return BottomNavigationBar(
-      items: const [
-        BottomNavigationBarItem(
+      items: [
+        const BottomNavigationBarItem(
           icon: Icon(Icons.home),
           label: 'Inicio',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person_2_sharp),
-          label: 'Vendedores',
+          icon: isAdmin
+              ? const Icon(Icons.person_2_sharp)
+              : const Icon(Icons.sell),
+          label: isAdmin ? 'Vendedores' : 'Vender',
         ),
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           icon: Icon(Icons.event),
           label: 'Eventos',
         ),

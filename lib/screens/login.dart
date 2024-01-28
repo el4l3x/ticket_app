@@ -22,7 +22,8 @@ class _LoginScreenState extends State<LoginScreen> {
             {showError(value['errorMessage'])}
           else
             {
-              Provider.of<User>(context, listen: false).setUser(value['user']),
+              Provider.of<UserAuth>(context, listen: false)
+                  .setUser(value['user']),
               Navigator.pushNamedAndRemoveUntil(
                 context,
                 '/dashboard',

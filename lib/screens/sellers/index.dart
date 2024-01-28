@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ticket_app/models/user.dart';
+import 'package:ticket_app/models/user_firebase.dart';
 import 'package:ticket_app/providers/users.dart';
 import 'package:ticket_app/screens/layouts/appbar.dart';
 import 'package:ticket_app/screens/layouts/generals.dart';
@@ -36,6 +38,8 @@ class _SellersScreenState extends State<SellersScreen> {
 
   @override
   Widget build(BuildContext context) {
+    UserAuth userAuth = Provider.of<UserAuth>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -134,7 +138,8 @@ class _SellersScreenState extends State<SellersScreen> {
         },
         child: const Icon(Icons.add),
       ),
-      bottomNavigationBar: generalsLayouts.footer(context, 1),
+      bottomNavigationBar:
+          generalsLayouts.footer(context, 1, userAuth.isAdmin!),
     );
   }
 }

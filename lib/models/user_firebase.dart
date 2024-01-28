@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class User extends ChangeNotifier {
+class UserAuth extends ChangeNotifier {
   Map<String, dynamic> userAuth = {};
   String? nombre;
   String? username;
