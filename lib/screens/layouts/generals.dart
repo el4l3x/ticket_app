@@ -78,7 +78,9 @@ class GeneralsLayouts {
             Navigator.pushReplacementNamed(context, '/vendedores');
             break;
           case 2:
-            Navigator.pushReplacementNamed(context, '/eventos');
+            Navigator.pushReplacementNamed(context, '/eventos', arguments: {
+              "isAdmin": isAdmin,
+            });
             break;
         }
       },

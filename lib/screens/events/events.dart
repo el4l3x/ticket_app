@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:ticket_app/models/event.dart';
 import 'package:ticket_app/models/user.dart';
-import 'package:ticket_app/models/user_firebase.dart';
 import 'package:ticket_app/providers/events.dart';
 import 'package:ticket_app/screens/layouts/appbar.dart';
 import 'package:ticket_app/screens/layouts/generals.dart';
@@ -38,7 +36,14 @@ class _EventsScreenState extends State<EventsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    UserAuth userAuth = Provider.of<UserAuth>(context);
+    final Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
+    final bool isAdmin = arguments['isAdmin'];
+
+    /* if (isAdmin) {
+      eventsProvider.loadEvents();
+    } else {
+      eventsProvider.loadEvents();
+    } */
 
     return Scaffold(
       appBar: AppBar(
@@ -68,8 +73,12 @@ class _EventsScreenState extends State<EventsScreen> {
 
                     return result;
                   },
-                  onDismissed: (direction) =>
-                      eventsProvider.deleteEvent(event.uid!),
+                  onDismissed: (direction) {
+                    eventsProvider.deleteEvent(event.uid!);
+                    setState(() {
+                      eventsProvider.events.removeAt(index);
+                    });
+                  },
                   background: Container(
                     alignment: Alignment.centerLeft,
                     padding: EdgeInsets.symmetric(
@@ -138,8 +147,7 @@ class _EventsScreenState extends State<EventsScreen> {
         shape: const StadiumBorder(),
         child: const Icon(Icons.add),
       ),
-      bottomNavigationBar:
-          generalsLayouts.footer(context, 2, userAuth.isAdmin!),
+      bottomNavigationBar: generalsLayouts.footer(context, 2, isAdmin),
     );
   }
 }
