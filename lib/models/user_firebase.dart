@@ -15,13 +15,13 @@ class UserAuth extends ChangeNotifier {
     this.isAdmin,
   }); */
 
-  void setUser(Map<String, dynamic> user, String uid) {
+  void setUser(Map<String, dynamic> user, String uidData) {
     userAuth = user;
     nombre = user['nombre'];
     username = user['username'];
     password = user['password'];
     isAdmin = user['is_admin'];
-    uid = uid;
+    uid = uidData;
     notifyListeners();
   }
 

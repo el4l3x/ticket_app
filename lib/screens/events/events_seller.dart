@@ -9,11 +9,7 @@ import 'package:ticket_app/screens/layouts/generals.dart';
 import 'package:ticket_app/screens/layouts/modals.dart';
 
 class EventsSellerScreen extends StatefulWidget {
-  final Map userAuth;
-
-  get getUserAuth => userAuth;
-
-  const EventsSellerScreen({super.key, required this.userAuth});
+  const EventsSellerScreen({super.key});
 
   @override
   State<EventsSellerScreen> createState() => _EventsSellerScreenState();
@@ -36,17 +32,20 @@ class _EventsSellerScreenState extends State<EventsSellerScreen> {
         _loading = false;
       });
     });
-
-    eventsProvider.loadEventsSeller('3IBfCn9ZQAOdXBWeFaIP');
   }
 
   @override
   Widget build(BuildContext context) {
     UserAuth userAuth = Provider.of<UserAuth>(context);
 
+    if (userAuth.uid != null) {
+      eventsProvider.loadEventsSeller(userAuth.uid!);
+      _loading = false;
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Eventos'),
+        title: const Text('Eventos Asignados'),
         actions: [appBarLayouts.logoutButton(context)],
       ),
       body: _loading
@@ -136,16 +135,6 @@ class _EventsSellerScreenState extends State<EventsSellerScreen> {
                 );
               },
             ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await Navigator.pushNamed(context, '/eventos/crear', arguments: {
-            'edit': false,
-            'sellers': {},
-          }).then((value) => eventsProvider.loadEvents());
-        },
-        shape: const StadiumBorder(),
-        child: const Icon(Icons.add),
-      ),
       bottomNavigationBar: generalsLayouts.footer(context, 2, userAuth),
     );
   }

@@ -34,7 +34,7 @@ Future<Map<String, dynamic>> loginAuth(String username, String password) async {
       if (querySnapshot.docs.first['password'] == password) {
         result['error'] = false;
         result['user'] = querySnapshot.docs.first.data();
-        result['uid'] = querySnapshot.docs.first.id;
+        result['uid'] = querySnapshot.docs.first.reference.id;
       } else {
         result['errorMessage'] = 'Clave incorrecta.';
       }

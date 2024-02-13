@@ -76,7 +76,13 @@ class GeneralsLayouts {
             Navigator.pushReplacementNamed(context, '/dashboard');
             break;
           case 1:
-            Navigator.pushNamed(context, '/vendedores');
+            if (userAuth.isAdmin!) {
+              Navigator.pushNamed(context, '/vendedores');
+            } else {
+              Navigator.pushNamed(context, '/vender', arguments: {
+                'userAuth': userAuth,
+              });
+            }
             break;
           case 2:
             if (userAuth.isAdmin!) {

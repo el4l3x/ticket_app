@@ -27,6 +27,9 @@ class _HomeScreenState extends State<HomeScreen> {
           appBarLayouts.logoutButton(context),
         ],
       ),
+      body: Center(
+        child: Text(userAuth.nombre!),
+      ),
       bottomNavigationBar: generalsLayouts.footer(context, 0, userAuth),
     );
   }

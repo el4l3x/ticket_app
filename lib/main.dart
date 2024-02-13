@@ -4,6 +4,7 @@ import 'package:ticket_app/models/user_firebase.dart';
 import 'package:ticket_app/screens/events/events_seller.dart';
 import 'package:ticket_app/screens/events/form_event.dart';
 import 'package:ticket_app/screens/events/events.dart';
+import 'package:ticket_app/screens/events/sell.dart';
 import 'package:ticket_app/screens/events/show.dart';
 import 'package:ticket_app/screens/home.dart';
 import 'package:ticket_app/screens/login.dart';
@@ -65,11 +66,11 @@ class App extends StatelessWidget {
         '/eventos/crear': (context) => const FormEventScreen(),
         '/eventos/editar': (context) => const FormEventScreen(),
         '/eventos/ver': (context) => const ShowEventScreen(),
-        '/eventos/asignados': (context) => EventsSellerScreen(
-            userAuth: ModalRoute.of(context)!.settings.arguments as Map),
+        '/eventos/asignados': (context) => const EventsSellerScreen(),
         '/vendedores': (context) => const SellersScreen(),
         '/vendedores/crear': (context) => const CreateSellerScreen(),
         '/vendedores/editar': (context) => const EditSellerScreen(),
+        '/vender': (context) => const SellScreen(),
       },
     );
   }
