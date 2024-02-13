@@ -12,6 +12,11 @@ class EventsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void loadEventsSeller(String uid) async {
+    _events = await getEventsSeller(uid);
+    notifyListeners();
+  }
+
   void deleteEvent(String uid) async {
     destroyEvent(uid).then((value) {
       if (value['error']) {

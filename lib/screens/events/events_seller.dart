@@ -8,14 +8,18 @@ import 'package:ticket_app/screens/layouts/appbar.dart';
 import 'package:ticket_app/screens/layouts/generals.dart';
 import 'package:ticket_app/screens/layouts/modals.dart';
 
-class EventsScreen extends StatefulWidget {
-  const EventsScreen({super.key});
+class EventsSellerScreen extends StatefulWidget {
+  final Map userAuth;
+
+  get getUserAuth => userAuth;
+
+  const EventsSellerScreen({super.key, required this.userAuth});
 
   @override
-  State<EventsScreen> createState() => _EventsScreenState();
+  State<EventsSellerScreen> createState() => _EventsSellerScreenState();
 }
 
-class _EventsScreenState extends State<EventsScreen> {
+class _EventsSellerScreenState extends State<EventsSellerScreen> {
   bool _loading = true;
   AppBarLayouts appBarLayouts = AppBarLayouts();
   GeneralsLayouts generalsLayouts = GeneralsLayouts();
@@ -33,7 +37,7 @@ class _EventsScreenState extends State<EventsScreen> {
       });
     });
 
-    eventsProvider.loadEvents();
+    eventsProvider.loadEventsSeller('3IBfCn9ZQAOdXBWeFaIP');
   }
 
   @override

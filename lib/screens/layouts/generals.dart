@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ticket_app/models/user_firebase.dart';
 
 class GeneralsLayouts {
   Container listItems(BuildContext context, String title, String leftSubtitle,
@@ -50,7 +51,7 @@ class GeneralsLayouts {
   }
 
   BottomNavigationBar footer(
-      BuildContext context, int currentIndex, bool isAdmin) {
+      BuildContext context, int currentIndex, UserAuth userAuth) {
     return BottomNavigationBar(
       items: [
         const BottomNavigationBarItem(
@@ -58,10 +59,10 @@ class GeneralsLayouts {
           label: 'Inicio',
         ),
         BottomNavigationBarItem(
-          icon: isAdmin
+          icon: userAuth.isAdmin!
               ? const Icon(Icons.person_2_sharp)
               : const Icon(Icons.sell),
-          label: isAdmin ? 'Vendedores' : 'Vender',
+          label: userAuth.isAdmin! ? 'Vendedores' : 'Vender',
         ),
         const BottomNavigationBarItem(
           icon: Icon(Icons.event),
@@ -75,12 +76,16 @@ class GeneralsLayouts {
             Navigator.pushReplacementNamed(context, '/dashboard');
             break;
           case 1:
-            Navigator.pushReplacementNamed(context, '/vendedores');
+            Navigator.pushNamed(context, '/vendedores');
             break;
           case 2:
-            Navigator.pushReplacementNamed(context, '/eventos', arguments: {
-              "isAdmin": isAdmin,
-            });
+            if (userAuth.isAdmin!) {
+              Navigator.pushNamed(context, '/eventos');
+            } else {
+              Navigator.pushNamed(context, '/eventos/asignados', arguments: {
+                'userAuth': userAuth,
+              });
+            }
             break;
         }
       },

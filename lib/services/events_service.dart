@@ -54,6 +54,28 @@ Future<List<EventModel>> getEvents() async {
   return events;
 }
 
+Future<List<EventModel>> getEventsSeller(String uid) async {
+  DocumentReference sellerRef = userReference.doc(uid);
+  QuerySnapshot queryEvents = await eventReference
+      .where('sellers', arrayContainsAny: [sellerRef]).get();
+  List<QueryDocumentSnapshot> documents = queryEvents.docs;
+
+  List<EventModel> events = await Future.wait(documents.map((e) async {
+    Map<String, dynamic> data = e.data() as Map<String, dynamic>;
+    List sellersList = data['sellers'];
+
+    List<UserModel> sellers = await Future.wait(sellersList.map((e) async {
+      DocumentSnapshot seller = await e.get();
+
+      return UserModel.fromReference(seller);
+    }).toList());
+
+    return EventModel.fromSnapshot(e, sellers);
+  }).toList());
+
+  return events;
+}
+
 Future<Map<String, dynamic>> updateEvent(
     String name, String tickets, String uid, List sellers) async {
   try {

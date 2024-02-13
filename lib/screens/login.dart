@@ -23,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
           else
             {
               Provider.of<UserAuth>(context, listen: false)
-                  .setUser(value['user']),
+                  .setUser(value['user'], value['uid']),
               Navigator.pushNamedAndRemoveUntil(
                 context,
                 '/dashboard',

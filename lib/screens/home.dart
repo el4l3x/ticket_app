@@ -27,8 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
           appBarLayouts.logoutButton(context),
         ],
       ),
-      bottomNavigationBar:
-          generalsLayouts.footer(context, 0, userAuth.isAdmin!),
+      bottomNavigationBar: generalsLayouts.footer(context, 0, userAuth),
     );
   }
 }

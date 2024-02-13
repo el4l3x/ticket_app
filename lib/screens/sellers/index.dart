@@ -138,8 +138,7 @@ class _SellersScreenState extends State<SellersScreen> {
         },
         child: const Icon(Icons.add),
       ),
-      bottomNavigationBar:
-          generalsLayouts.footer(context, 1, userAuth.isAdmin!),
+      bottomNavigationBar: generalsLayouts.footer(context, 1, userAuth),
     );
   }
 }
